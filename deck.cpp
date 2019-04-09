@@ -98,8 +98,7 @@ deck deck::deal(int y){
 	return t;
 }
 bool deck::operator==(deck t){
-	deck u = *this;
-	card a, b;
+	card a;
 	bool eq = true;
 	if(this->cards.size() == t.cards.size()){
 		for(int i = 1; i<=this->cards.size(); i++){
