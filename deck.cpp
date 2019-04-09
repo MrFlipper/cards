@@ -1,4 +1,3 @@
-//test comment
 #include<iostream>
 #include<algorithm>
 #include<random>
@@ -7,11 +6,10 @@
 #include "card.h"
 
 deck::deck(){
-
+	
 }
 void deck::populate(){
 	card t; // create temporary card
-	
 	// nested for loop creates standard deck of 52
 	for(int i = 0; i<5;i++){
 		if(i<4){

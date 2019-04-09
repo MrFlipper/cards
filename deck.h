@@ -19,12 +19,12 @@ class deck{
 		void replace(deck);	//Places a number of cards on bottom of deck
 		void removeJ();	// Removes Jokers from deck
 		bool isEmpty(); // Check if deck is empty
-		deck deal(int);// Returns a vector of dealt cards from the top of the deck
+		deck deal(int);	// Returns a vector of dealt cards from the top of the deck
 		vector <card> cards;	// Vector represents deck of cards
 		vector <card>::iterator it;	// Iteration variable for cards
-		char s[5] = {'S', 'H', 'C', 'D','J'};	// List of "suits" for the cards (S=Spades, H=Hearts, etc.)
-		bool operator==(deck);
-		bool operator!=(deck);
-		bool isValid(card);
+		char s[5]={'S','H','C','D','J'};// List of "suits" for the cards (S=Spades, H=Hearts, etc.)
+		bool operator==(deck);	// Checks for equivalency between decks (order does NOT matter)
+		bool operator!=(deck);	// Opposite of ==
+		bool isValid(card);	// Checks if a card is valid by checking its suit and value
 };
 #endif
