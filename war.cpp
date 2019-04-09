@@ -3,7 +3,7 @@
 using namespace std;
 deck war(deck &p1, deck &p2);
 int main(){
-	deck a, player1, player2;
+	deck a, player1, player2, d;
 	card c1, c2;
 	a.populate();
 	a.removeJ();
@@ -16,9 +16,11 @@ int main(){
 		
 		cout<<endl<<"Round "<<c<<": "<<endl<<endl;
 		cout<<"Player 1: ";
+		player1.shuffle();
 		player1.show();
 		cout<<endl;
 		cout<<endl<<"Player 2: ";
+		player2.shuffle();
 		player2.show();
 		cout<<endl<<endl;
 		c1 = player1.pop();
@@ -44,18 +46,24 @@ int main(){
 		}
 		else if(c1.vEqual(c2) and not player1.isEmpty() and not player2.isEmpty()){
 			cout<<"WAR!!"<<endl;
-			if(war(player1, player2)==player1){
+			d = war(player1, player2);
+			if(d==player1){
+				cout<<"Winner: Player1!"<<endl;
 				player1.replace(c1);
 				player1.replace(c2);
 			}
-			else{
+			else if (d == player2){
+				cout<<"Winner: Player2!"<<endl;
 				player2.replace(c1);
 				player2.replace(c2);
 			}
+			else{
+				cout<<"Error!"<<endl;
+				return 0;
+			}
 		}
 		c++;
-		player1.shuffle();
-		player2.shuffle();
+
 	}
 	if(player1.isEmpty())
 		cout<<"PLAYER 2 WINS!!"<<endl;
@@ -63,68 +71,53 @@ int main(){
 		cout<<"PLAYER 1 WINS!!"<<endl;
 	return 0;
 }
-
 deck war(deck &p1, deck &p2){
 	deck a, b;
-	if(int(p1.cards.size())>=4 && int(p2.cards.size())>=4){
-		a = p1.deal(4);
-		b = p2.deal(4);
-	}
-	else if(int(p1.cards.size())<4){
-		if(int(p1.cards.size()) > 1)
-			a = p1.deal(int(p1.cards.size()));
-		else
-			a = p1.deal(1);
-		b = p2.deal(4);
-	}
-	else if(int(p2.cards.size())<4){
-		a = p1.deal(4);
-		if(int(p2.cards.size()) > 1)
-			b = p2.deal(int(p2.cards.size()));
-		else
-			b = p2.deal(1);
-	}
 	card x, y;
-	if(int(a.cards.size()) != 0){
-		x = a.draw(int(a.cards.size()));
+	if(not p1.isEmpty() and not p2.isEmpty()){
+		if(p1.cards.size()>=4){
+			a = p1.deal(4);
+			if(p2.cards.size()>=4)
+				b = p2.deal(4);
+			else
+				b = p2.deal(p2.cards.size());
+		}
+		else{
+			a = p1.deal(p1.cards.size());
+			b = p2.deal(4);
+		}
+		cout<<"Hand 1: ";
+		a.show();
+		cout<<"	Hand 2: ";
+		b.show();
+		cout<<endl;
+		x = a.draw(a.cards.size());
+		y = b.draw(b.cards.size());
 		a.replace(x);
-	}
-	if(int(b.cards.size()) != 0){
-		y = b.draw(int(b.cards.size()));
 		b.replace(y);
-	}
-	cout<<"Player 1: ";
-	a.show();
-	cout<<"__Card: ";
-	x.show();
-	cout<<"    Player 2: ";
-	b.show();
-	cout<<"__Card: ";
-	y.show();
-	cout<<endl;
-	if(x > y){
-		cout<<"Winner: Player 1!"<<endl;
-		p1.replace(a);
-		p1.replace(b);
-		return p1;
-	}
-	else if(x < y){
-		cout<<"Winner: Player 2!"<<endl;
-		p2.replace(a);
-		p2.replace(b);
-		return p2;
-	}
-	else if(x.vEqual(y)){
-		cout<<"WAR!!"<<endl;
-		if(war(p1, p2) == p1){
+		cout<<"Card 1: ";
+		x.show();
+		cout<<"	Card 2: ";
+		y.show();
+		cout<<endl;
+		if(x>y){
 			p1.replace(a);
 			p1.replace(b);
 			return p1;
 		}
-		else{
-			p2.replace(a);
+		else if(x<y){
 			p2.replace(b);
+			p2.replace(a);
 			return p2;
 		}
+		else if(x.vEqual(y)){
+			cout<<"WAR!!"<<endl;
+			return war(p1, p2);
+		}
+
 	}
+	else if(p1.isEmpty())
+		return p2;
+	else
+		return p1;
 }

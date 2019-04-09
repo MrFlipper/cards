@@ -24,5 +24,7 @@ class deck{
 		vector <card>::iterator it;	// Iteration variable for cards
 		char s[5] = {'S', 'H', 'C', 'D','J'};	// List of "suits" for the cards (S=Spades, H=Hearts, etc.)
 		bool operator==(deck);
+		bool operator!=(deck);
+		bool isValid(card);
 };
 #endif

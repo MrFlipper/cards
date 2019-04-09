@@ -71,9 +71,11 @@ void deck::replace(deck t){
 	}
 }
 void deck::insert(card t, int index){
-	it = cards.begin();
-	advance(it, --index);
-	cards.insert(it, t);
+	if(isValid(t)){
+		it = cards.begin();
+		advance(it, --index);
+		cards.insert(it, t);
+	}
 }
 void deck::removeJ(){
 	for(it = cards.begin(); it != cards.end(); it++){
@@ -96,22 +98,32 @@ deck deck::deal(int y){
 	return t;
 }
 bool deck::operator==(deck t){
-	card a, b;
+	card a;
 	bool eq = true;
-	if(cards.size() == t.cards.size()){
-		for(it = cards.begin(); it!=cards.end(); it++){
-			if(eq){
-				a = this->pop();
-				b = t.pop();
-				if(a !=b)
-					eq = false;
+	if(this->cards.size() == t.cards.size()){
+		for(int i = 1; i<=this->cards.size(); i++){
+			a = t.draw(i);
+			if(count(this->cards.begin(), this->cards.end(), a)!=1){
+				eq = false;
 			}
-			this->replace(a);
-			t.replace(b);
+			t.insert(a, i);
 		}
 	}
 	else
 		eq=false;
 	return eq;
 
+}
+bool deck::operator!=(deck t){
+	deck a = *this;
+	if(a == t)
+		return false;
+	else
+		return true;
+}
+bool deck::isValid(card t){
+	if(find(begin(s), end(s), t.suit and t.value > 0 and t.value <=13))
+		return true;
+	else
+		return false;
 }
